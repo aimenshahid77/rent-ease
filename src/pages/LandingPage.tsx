@@ -86,7 +86,7 @@ const InlineFAQ = () => (
 );
 
 export default function LandingPage() {
-  const [, setSearchFilters] = useState<any>({});
+  const [, setSearchFilters] = useState<Record<string, string>>({});
   const { data: featuredListings, isLoading } = useListings({});
   const featured = (featuredListings || []).slice(0, 6);
 
