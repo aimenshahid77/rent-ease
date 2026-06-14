@@ -44,24 +44,75 @@ export const onboardingService = {
     const [tenants, landlords] = await Promise.all([
       supabase
         .from("tenant_onboarding")
-        .select("*, profile:profiles(*), documents:onboarding_documents(*)")
+        .select("*")
         .eq("verification_status", "pending")
         .eq("completed", true),
       supabase
         .from("landlord_onboarding")
-        .select("*, profile:profiles(*), documents:onboarding_documents(*)")
+        .select("*")
         .eq("verification_status", "pending")
         .eq("completed", true),
     ]);
+
+    if (tenants.error) {
+      console.error("Error fetching tenant onboarding:", tenants.error);
+    }
+    if (landlords.error) {
+      console.error("Error fetching landlord onboarding:", landlords.error);
+    }
+
+    // Fetch profiles and documents separately for these users
+    const allUserIds = [
+      ...(tenants.data || []).map((t: any) => t.user_id),
+      ...(landlords.data || []).map((l: any) => l.user_id),
+    ];
+
+    console.log("Pending onboarding user IDs:", allUserIds);
+
+    let profiles: any[] = [];
+    let documents: any[] = [];
+
+    if (allUserIds.length > 0) {
+      const { data: profilesData, error: profilesError } = await supabase
+        .from("profiles")
+        .select("*")
+        .in("id", allUserIds);
+      
+      if (profilesError) {
+        console.error("Error fetching profiles:", profilesError);
+      }
+      profiles = profilesData || [];
+
+      const { data: documentsData, error: docsError } = await supabase
+        .from("onboarding_documents")
+        .select("*")
+        .in("user_id", allUserIds);
+      
+      if (docsError) {
+        console.error("Error fetching documents:", docsError);
+      }
+      documents = documentsData || [];
+
+      console.log("Fetched profiles:", profiles.length, "Fetched documents:", documents.length);
+    }
+
     const tenantRows = (tenants.data || []).map((r: any) => ({
       ...r,
       role: "tenant" as const,
+      profile: profiles.find((p) => p.id === r.user_id),
+      documents: documents.filter((d) => d.user_id === r.user_id),
     }));
+
     const landlordRows = (landlords.data || []).map((r: any) => ({
       ...r,
       role: "landlord" as const,
+      profile: profiles.find((p) => p.id === r.user_id),
+      documents: documents.filter((d) => d.user_id === r.user_id),
     }));
-    return [...tenantRows, ...landlordRows];
+
+    const result = [...tenantRows, ...landlordRows];
+    console.log("Pending onboarding result:", result);
+    return result;
   },
 
   getDocumentSignedUrl(storagePath: string): string {
