@@ -18,17 +18,22 @@ interface AdminApprovalsTabProps {
 function DocumentPreview({ document }: { document: any }) {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [isImage, setIsImage] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadUrl = async () => {
       try {
-        const url = onboardingService.getDocumentSignedUrl(
+        setIsLoading(true);
+        const url = await onboardingService.getDocumentSignedUrl(
           document.storage_path,
         );
         setImageUrl(url);
         setIsImage(document.mime_type?.startsWith("image/") ?? true);
       } catch (error) {
         console.error("Failed to load document:", error);
+        setIsImage(false);
+      } finally {
+        setIsLoading(false);
       }
     };
     loadUrl();
@@ -40,13 +45,19 @@ function DocumentPreview({ document }: { document: any }) {
 
   return (
     <a
-      href={imageUrl}
+      href={imageUrl || "#"}
       target="_blank"
       rel="noopener noreferrer"
       className="group relative flex flex-col items-center justify-center p-3 rounded-xl border border-border hover:border-primary/50 bg-slate-50 dark:bg-slate-700/50 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
       title={document.file_name}
+      onClick={(e) => {
+        if (!imageUrl) e.preventDefault();
+      }}
     >
-      {isImage && imageUrl && (
+      {isLoading && (
+        <div className="w-full h-24 bg-slate-200 dark:bg-slate-600 rounded-lg mb-2 animate-pulse" />
+      )}
+      {!isLoading && isImage && imageUrl && (
         <img
           src={imageUrl}
           alt={displayName}
@@ -54,7 +65,7 @@ function DocumentPreview({ document }: { document: any }) {
           onError={() => setIsImage(false)}
         />
       )}
-      {(!isImage || !imageUrl) && (
+      {!isLoading && (!isImage || !imageUrl) && (
         <FileUp className="h-8 w-8 text-muted-foreground mb-2" />
       )}
       <p className="text-xs font-semibold text-foreground text-center line-clamp-2">

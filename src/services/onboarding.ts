@@ -77,7 +77,7 @@ export const onboardingService = {
         .from("profiles")
         .select("*")
         .in("id", allUserIds);
-      
+
       if (profilesError) {
         console.error("Error fetching profiles:", profilesError);
       }
@@ -87,13 +87,18 @@ export const onboardingService = {
         .from("onboarding_documents")
         .select("*")
         .in("user_id", allUserIds);
-      
+
       if (docsError) {
         console.error("Error fetching documents:", docsError);
       }
       documents = documentsData || [];
 
-      console.log("Fetched profiles:", profiles.length, "Fetched documents:", documents.length);
+      console.log(
+        "Fetched profiles:",
+        profiles.length,
+        "Fetched documents:",
+        documents.length,
+      );
     }
 
     const tenantRows = (tenants.data || []).map((r: any) => ({
@@ -115,14 +120,7 @@ export const onboardingService = {
     return result;
   },
 
-  getDocumentSignedUrl(storagePath: string): string {
-    const { data } = supabase.storage
-      .from("onboarding-documents")
-      .getPublicUrl(storagePath);
-    return data.publicUrl;
-  },
-
-  async getDocumentSignedUrlWithExpiry(
+  async getDocumentSignedUrl(
     storagePath: string,
     expiresIn: number = 3600,
   ): Promise<string> {
@@ -132,9 +130,16 @@ export const onboardingService = {
 
     if (error) {
       console.warn("Failed to create signed URL:", error);
-      return this.getDocumentSignedUrl(storagePath);
+      throw new Error(`Failed to create signed URL: ${error.message}`);
     }
     return data.signedUrl;
+  },
+
+  async getDocumentSignedUrlWithExpiry(
+    storagePath: string,
+    expiresIn: number = 3600,
+  ): Promise<string> {
+    return this.getDocumentSignedUrl(storagePath, expiresIn);
   },
 
   async adminUpdateVerificationStatus(
