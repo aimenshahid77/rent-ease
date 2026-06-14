@@ -14,7 +14,8 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
         {[1, 2].map((i) => (
           <div
             key={i}
-            className="animate-pulse bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 p-4 rounded-xl h-24"
+            // Replaced slate specific skeletons with standard variable muted targets
+            className="animate-pulse bg-muted/60 border border-border p-4 rounded-xl h-24"
           />
         ))}
       </div>
@@ -23,12 +24,12 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
 
   if (!reviews || reviews.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 bg-slate-50 dark:bg-slate-800/30 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl text-center">
-        <MessageSquare className="h-8 w-8 text-slate-400 dark:text-slate-600 mb-2" />
-        <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+      <div className="flex flex-col items-center justify-center p-8 bg-muted/20 border border-dashed border-border rounded-2xl text-center">
+        <MessageSquare className="h-8 w-8 text-muted-foreground/60 mb-2" />
+        <p className="text-muted-foreground text-sm font-medium">
           No reviews yet for this listing.
         </p>
-        <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">
+        <p className="text-muted-foreground/70 text-xs mt-1">
           Be the first to share your experience!
         </p>
       </div>
@@ -43,18 +44,18 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
   return (
     <div className="space-y-6">
       {/* Review Summary */}
-      <div className="flex items-center gap-4 bg-slate-900/20 border border-slate-800 p-4 rounded-xl">
-        <div className="flex flex-col items-center justify-center bg-slate-950 p-4 rounded-xl border border-slate-800 aspect-square min-w-[80px]">
-          <span className="text-2xl font-black text-white">
+      <div className="flex items-center gap-4 bg-muted/40 border border-border p-4 rounded-xl transition-colors duration-200">
+        <div className="flex flex-col items-center justify-center bg-card p-4 rounded-xl border border-border aspect-square min-w-[80px]">
+          <span className="text-2xl font-black text-foreground">
             {averageRating}
           </span>
-          <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">
+          <span className="text-muted-foreground text-[10px] uppercase font-bold tracking-wider">
             Rating
           </span>
         </div>
         <div>
-          <h4 className="font-bold text-slate-200">Verified Reviews</h4>
-          <p className="text-slate-400 text-sm mt-0.5">
+          <h4 className="font-bold text-foreground">Verified Reviews</h4>
+          <p className="text-muted-foreground text-sm mt-0.5">
             Based on {reviews.length} reviews from RentEase tenants.
           </p>
         </div>
@@ -65,14 +66,15 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
         {reviews.map((review) => (
           <div
             key={review.id}
-            className="p-5 bg-slate-900/40 border border-slate-800 rounded-xl space-y-2 hover:border-slate-700/50 transition-colors"
+            // Styled loop item cards safely using theme configurations instead of dark-hardcoded slate boundaries
+            className="p-5 bg-card border border-border rounded-xl space-y-2 hover:border-muted-foreground/30 transition-colors duration-200"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-semibold text-slate-200">
+                <p className="font-semibold text-foreground">
                   {review.tenant?.full_name || "Tenant"}
                 </p>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-muted-foreground">
                   {new Date(review.created_at).toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "long",
@@ -87,14 +89,16 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
                   <Star
                     key={idx}
                     className={`h-4 w-4 ${
-                      idx < review.rating ? "fill-current" : "text-white-700"
+                      idx < review.rating
+                        ? "fill-current"
+                        : "text-slate-300 dark:text-slate-700"
                     }`}
                   />
                 ))}
               </div>
             </div>
 
-            <p className="text-sm text-slate-300 leading-relaxed font-normal">
+            <p className="text-sm text-foreground/90 leading-relaxed font-normal">
               {review.comment}
             </p>
           </div>
