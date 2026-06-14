@@ -1,5 +1,5 @@
-import { useReviews } from '../../hooks/useReviews';
-import { Star, MessageSquare } from 'lucide-react';
+import { useReviews } from "../../hooks/useReviews";
+import { Star, MessageSquare } from "lucide-react";
 
 interface ReviewListProps {
   listingId: string;
@@ -12,7 +12,10 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
     return (
       <div className="space-y-4">
         {[1, 2].map((i) => (
-          <div key={i} className="animate-pulse bg-slate-900/30 border border-slate-800 p-4 rounded-xl h-24" />
+          <div
+            key={i}
+            className="animate-pulse bg-slate-100 dark:bg-slate-800/50 border border-slate-300 dark:border-slate-700 p-4 rounded-xl h-24"
+          />
         ))}
       </div>
     );
@@ -20,10 +23,14 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
 
   if (!reviews || reviews.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center p-8 bg-slate-900/10 border border-dashed border-slate-800 rounded-2xl text-center">
-        <MessageSquare className="h-8 w-8 text-slate-600 mb-2" />
-        <p className="text-slate-400 text-sm font-medium">No reviews yet for this listing.</p>
-        <p className="text-slate-500 text-xs mt-1">Be the first to share your experience!</p>
+      <div className="flex flex-col items-center justify-center p-8 bg-slate-50 dark:bg-slate-800/30 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl text-center">
+        <MessageSquare className="h-8 w-8 text-slate-400 dark:text-slate-600 mb-2" />
+        <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+          No reviews yet for this listing.
+        </p>
+        <p className="text-slate-500 dark:text-slate-500 text-xs mt-1">
+          Be the first to share your experience!
+        </p>
       </div>
     );
   }
@@ -38,12 +45,18 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
       {/* Review Summary */}
       <div className="flex items-center gap-4 bg-slate-900/20 border border-slate-800 p-4 rounded-xl">
         <div className="flex flex-col items-center justify-center bg-slate-950 p-4 rounded-xl border border-slate-800 aspect-square min-w-[80px]">
-          <span className="text-2xl font-black text-white">{averageRating}</span>
-          <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">Rating</span>
+          <span className="text-2xl font-black text-white">
+            {averageRating}
+          </span>
+          <span className="text-slate-400 text-[10px] uppercase font-bold tracking-wider">
+            Rating
+          </span>
         </div>
         <div>
           <h4 className="font-bold text-slate-200">Verified Reviews</h4>
-          <p className="text-slate-400 text-sm mt-0.5">Based on {reviews.length} reviews from RentEase tenants.</p>
+          <p className="text-slate-400 text-sm mt-0.5">
+            Based on {reviews.length} reviews from RentEase tenants.
+          </p>
         </div>
       </div>
 
@@ -57,13 +70,13 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-semibold text-slate-200">
-                  {review.tenant?.full_name || 'Tenant'}
+                  {review.tenant?.full_name || "Tenant"}
                 </p>
                 <p className="text-xs text-slate-500">
                   {new Date(review.created_at).toLocaleDateString(undefined, {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
                   })}
                 </p>
               </div>
@@ -74,7 +87,7 @@ export const ReviewList = ({ listingId }: ReviewListProps) => {
                   <Star
                     key={idx}
                     className={`h-4 w-4 ${
-                      idx < review.rating ? 'fill-current' : 'text-slate-700'
+                      idx < review.rating ? "fill-current" : "text-white-700"
                     }`}
                   />
                 ))}

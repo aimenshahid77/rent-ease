@@ -39,12 +39,12 @@ export const ReviewForm = ({ listingId, tenantId }: ReviewFormProps) => {
   };
 
   return (
-    <div className="bg-slate-900/30 border border-slate-800 p-6 rounded-2xl">
-      <h3 className="text-lg font-bold text-slate-100 mb-4">Write a Review</h3>
+    <div className="bg-white border border-slate-800 p-6 rounded-2xl">
+      <h3 className="text-lg font-bold text-black mb-4">Write a Review</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Star Rating Select */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300">Your Rating</label>
+          <label className="text-sm font-medium text-black">Your Rating</label>
           <Controller
             name="rating"
             control={control}
@@ -59,7 +59,7 @@ export const ReviewForm = ({ listingId, tenantId }: ReviewFormProps) => {
                   >
                     <Star
                       className={`h-6 w-6 ${
-                        field.value >= star ? 'fill-current' : 'text-slate-600'
+                        field.value >= star ? 'fill-current' : 'text-black'
                       }`}
                     />
                   </button>
@@ -71,7 +71,7 @@ export const ReviewForm = ({ listingId, tenantId }: ReviewFormProps) => {
 
         {/* Comment field */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-slate-300">Comment</label>
+          <label className="text-sm font-medium text-black-300">Comment</label>
           <Controller
             name="comment"
             control={control}
@@ -81,7 +81,7 @@ export const ReviewForm = ({ listingId, tenantId }: ReviewFormProps) => {
                   {...field}
                   rows={4}
                   placeholder="Share your experience staying here..."
-                  className={`w-full p-3 bg-slate-950 border border-slate-800 rounded-xl text-white text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none ${
+                  className={`w-full p-3 bg-zinc-300 border border-slate-800 rounded-xl text-black text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none ${
                     fieldState.invalid ? 'border-destructive' : ''
                   }`}
                   disabled={isPending}
