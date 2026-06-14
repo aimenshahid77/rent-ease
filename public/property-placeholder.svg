@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Property placeholder</title>
+  <desc id="desc">A stylized purple home illustration used when a property image is unavailable.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#f4f9f9"/>
+      <stop offset="1" stop-color="#ece7ff"/>
+    </linearGradient>
+    <linearGradient id="home" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#7c3aed"/>
+      <stop offset="1" stop-color="#5b3bb6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" fill="url(#sky)"/>
+  <circle cx="960" cy="150" r="82" fill="#c4b5fd" opacity=".45"/>
+  <circle cx="215" cy="620" r="140" fill="#ddd6fe" opacity=".6"/>
+  <path d="M250 392 600 132l350 260v270a42 42 0 0 1-42 42H292a42 42 0 0 1-42-42V392Z" fill="#fff" stroke="#d8cdfd" stroke-width="12"/>
+  <path d="m202 404 398-295 398 295" fill="none" stroke="url(#home)" stroke-width="54" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="482" y="470" width="160" height="234" rx="28" fill="url(#home)"/>
+  <rect x="690" y="445" width="142" height="112" rx="20" fill="#ede9fe" stroke="#8b5cf6" stroke-width="10"/>
+  <rect x="354" y="445" width="142" height="112" rx="20" fill="#ede9fe" stroke="#8b5cf6" stroke-width="10"/>
+  <path d="M300 704h600" stroke="#8b5cf6" stroke-width="14" stroke-linecap="round" opacity=".45"/>
+</svg>
